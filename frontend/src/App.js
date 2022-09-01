@@ -4,6 +4,8 @@ import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
 
+const proxy = "http://localhost:8002";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +24,7 @@ class App extends Component {
   }
   refreshList = () => {
     axios
-      .get("http://localhost:8000/api/todos/")
+      .get(`${proxy}/api/todos/`)
       .then(res => this.setState({ todoList: res.data }))
       .catch(err => console.log(err));
   };
@@ -93,17 +95,17 @@ class App extends Component {
     this.toggle();
     if (item.id) {
       axios
-        .put(`http://localhost:8000/api/todos/${item.id}/`, item)
+        .put(`${proxy}/api/todos/${item.id}/`, item)
         .then(res => this.refreshList());
       return;
     }
     axios
-      .post("http://localhost:8000/api/todos/", item)
+      .post(`${proxy}/api/todos/`, item)
       .then(res => this.refreshList());
   };
   handleDelete = item => {
     axios
-      .delete(`http://localhost:8000/api/todos/${item.id}`)
+      .delete(`${proxy}/api/todos/${item.id}`)
       .then(res => this.refreshList());
   };
   createItem = () => {
