@@ -21,6 +21,8 @@ class Module(models.Model):
   name = models.CharField(max_length=120)
   # Module duration in weeks 
   duration = models.IntegerField(default=13)
+  completed = models.BooleanField(default=False)
+  start_date = models.DateField(default=datetime.now())
   
   def __str__(self):
     return self.code

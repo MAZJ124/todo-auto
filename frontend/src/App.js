@@ -10,7 +10,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewCompleted: false,
+      viewCompletedTodo: false,
+      viewCompletedModule: false,
       activeItem: {
         title: "",
         description: "",
@@ -28,34 +29,58 @@ class App extends Component {
       .then(res => this.setState({ todoList: res.data }))
       .catch(err => console.log(err));
   };
-  displayCompleted = status => {
+  displayCompletedTodo = status => {
     if (status) {
-      return this.setState({ viewCompleted: true });
+      return this.setState({ viewCompletedTodo: true });
     }
-    return this.setState({ viewCompleted: false });
+    return this.setState({ viewCompletedTodo: false });
   };
-  renderTabList = () => {
+  displayCompletedModule = status => {
+    if (status) {
+      return this.setState({ viewCompletedModule: true });
+    }
+    return this.setState({ viewCompletedModule: false });
+  };
+  renderTodoTabList = () => {
     return (
       <div className="my-5 tab-list">
         <span
-          onClick={() => this.displayCompleted(true)}
-          className={this.state.viewCompleted ? "active" : ""}
+          onClick={() => this.displayCompletedTodo(true)}
+          className={this.state.viewCompletedTodo ? "active" : ""}
         >
-          complete
+          Complete
         </span>
         <span
-          onClick={() => this.displayCompleted(false)}
-          className={this.state.viewCompleted ? "" : "active"}
+          onClick={() => this.displayCompletedTodo(false)}
+          className={this.state.viewCompletedTodo ? "" : "active"}
         >
           Incomplete
         </span>
       </div>
     );
   };
-  renderItems = () => {
-    const { viewCompleted } = this.state;
+  renderModuleTabList = () => {
+    return (
+      <div className="my-5 tab-list">
+        <span
+          onClick={() => this.displayCompletedModule(true)}
+          className={this.state.viewCompletedModule ? "active" : ""}
+        >
+          Current modules
+        </span>
+        <span
+          onClick={() => this.displayCompletedModule(false)}
+          className={this.state.viewCompletedModule ? "" : "active"}
+        >
+          Completed modules
+        </span>
+      </div>
+    );
+  }
+  renderTodoItems = () => {
+    const { viewCompletedTodo } = this.state;
     const newItems = this.state.todoList.filter(
-      item => item.completed === viewCompleted
+      item => item.completed === viewCompletedTodo
     );
     return newItems.map(item => (
       <li
@@ -64,7 +89,7 @@ class App extends Component {
       >
         <span
           className={`todo-title mr-2 ${
-            this.state.viewCompleted ? "completed-todo" : ""
+            this.state.viewCompletedTodo ? "completed-todo" : ""
           }`}
           title={item.description}
         >
@@ -108,8 +133,8 @@ class App extends Component {
       .delete(`${proxy}/api/todos/${item.id}`)
       .then(res => this.refreshList());
   };
-  createItem = () => {
-    const item = { title: "", description: "", completed: false };
+  createTodo = () => {
+    const item = { title: "", description: "", completed: false, deadline: "" };
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
   editItem = item => {
@@ -123,13 +148,19 @@ class App extends Component {
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <div className="">
-                <button onClick={this.createItem} className="btn btn-primary">
+                <button onClick={this.createTodo} className="btn btn-primary">
+                  Add module
+                </button>
+              </div>
+              {this.renderModuleTabList()}
+              <div className="">
+                <button onClick={this.createTodo} className="btn btn-primary">
                   Add task
                 </button>
               </div>
-              {this.renderTabList()}
+              {this.renderTodoTabList()}
               <ul className="list-group list-group-flush">
-                {this.renderItems()}
+                {this.renderTodoItems()}
               </ul>
             </div>
           </div>

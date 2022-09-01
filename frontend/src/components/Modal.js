@@ -1,6 +1,6 @@
 // frontend/src/components/Modal.js
 
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   Button,
   Modal,
@@ -10,8 +10,10 @@ import {
   Form,
   FormGroup,
   Input,
-  Label
+  Label,
+  timeoutsShape
 } from "reactstrap";
+import DatePicker from 'react-date-picker';
 
 export default class CustomModal extends Component {
   constructor(props) {
@@ -22,12 +24,17 @@ export default class CustomModal extends Component {
   }
 
   handleChange = e => {
-    let { name, value } = e.target;
-    if (e.target.type === "checkbox") {
-      value = e.target.checked;
+    if (typeof e !== undefined) {
+      let { name, value } = e.target;
+      console.log(name)
+      console.log(value)
+      if (e.target.type === "checkbox") {
+        value = e.target.checked;
+      }
+      const activeItem = { ...this.state.activeItem, [name]: value};
+      this.setState({ activeItem });
+      console.log(activeItem);
     }
-    const activeItem = { ...this.state.activeItem, [name]: value };
-    this.setState({ activeItem });
   };
 
   render() {
@@ -67,6 +74,23 @@ export default class CustomModal extends Component {
                 />
                 Completed
               </Label>
+            </FormGroup>
+            {/* <FormGroup>
+              <Label for="deadline">Deadline</Label>
+              <DatePicker 
+                onChange={this.handleChange}
+                // value={this.selectDate.date}
+              />
+            </FormGroup> */}
+            <FormGroup>
+              <Label for="deadline">Deadline</Label>
+              <Input
+                type="text"
+                name="deadline"
+                value={this.state.activeItem.deadline}
+                onChange={this.handleChange}
+                placeholder="In yyyy-mm-dd format"
+              />
             </FormGroup>
           </Form>
         </ModalBody>
