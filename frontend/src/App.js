@@ -1,7 +1,8 @@
 // frontend/src/App.js
 
 import React, { Component } from "react";
-import Modal from "./components/Modal";
+import AddTodoModal from "./components/addTodoModal";
+import AddModuleModal from "./components/addModuleModal"
 import axios from "axios";
 
 const proxy = "http://localhost:8002";
@@ -17,6 +18,7 @@ class App extends Component {
         description: "",
         completed: false
       },
+      addedItem: "",
       todoList: []
     };
   }
@@ -148,13 +150,25 @@ class App extends Component {
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <div className="">
-                <button onClick={this.createTodo} className="btn btn-primary">
+                <button 
+                  onClick={() => {
+                    this.addedItem = "module"
+                    this.createTodo()
+                  }} 
+                  className="btn btn-primary"
+                >
                   Add module
                 </button>
               </div>
               {this.renderModuleTabList()}
               <div className="">
-                <button onClick={this.createTodo} className="btn btn-primary">
+                <button 
+                  onClick={() => {
+                    this.addedItem = "todo"
+                    this.createTodo()
+                  }} 
+                  className="btn btn-primary"
+                >
                   Add task
                 </button>
               </div>
@@ -166,7 +180,13 @@ class App extends Component {
           </div>
         </div>
         {this.state.modal ? (
-          <Modal
+          this.addedItem === "todo" ? 
+          <AddTodoModal
+            activeItem={this.state.activeItem}
+            toggle={this.toggle}
+            onSave={this.handleSubmit}
+          /> :
+          <AddModuleModal
             activeItem={this.state.activeItem}
             toggle={this.toggle}
             onSave={this.handleSubmit}
