@@ -32,8 +32,8 @@ class App extends Component {
       .then(res => this.setState({ todoList: res.data }))
       .catch(err => console.log(err));
     axios
-      .get(`${proxy}/api/todos/`)
-      .then(res => this.setState({ todoList: res.data }))
+      .get(`${proxy}/api/modules/`)
+      .then(res => this.setState({ moduleList: res.data }))
       .catch(err => console.log(err));
   };
   displayCompletedTodo = status => {
@@ -120,6 +120,51 @@ class App extends Component {
       </li>
     ));
   };
+  renderModules = () => {
+    const { viewCompletedTodo } = this.state;
+    const newItems = this.state.moduleList
+    // .filter(
+    //   item => item.completed === viewCompletedTodo
+    // );
+    return newItems.map(item => (
+      <li
+        key={item.id}
+        className="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <span
+          className={`todo-title mr-2 ${
+            this.state.viewCompletedTodo ? "completed-todo" : ""
+          }`}
+          title={item.description}
+        >
+          {item.code}
+        </span>
+        <span
+          className={`todo-title mr-2 ${
+            this.state.viewCompletedTodo ? "completed-todo" : ""
+          }`}
+          title={item.description}
+        >
+          {item.name}
+        </span>
+        <span>
+          <button
+            onClick={() => this.editItem(item)}
+            className="btn btn-secondary mr-2"
+          >
+            {" "}
+            Edit{" "}
+          </button>
+          <button
+            onClick={() => this.handleDelete(item)}
+            className="btn btn-danger"
+          >
+            Delete{" "}
+          </button>
+        </span>
+      </li>
+    ));
+  };
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
@@ -167,7 +212,7 @@ class App extends Component {
               </div>
               {this.renderModuleTabList()}
               <ul className="list-group list-group-flush">
-                {this.renderTodoItems()}
+                {this.renderModules()}
               </ul>
               <div className="">
                 <button 
