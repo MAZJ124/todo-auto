@@ -8,6 +8,7 @@ from todo import views                            # add this
         
 router = routers.DefaultRouter()                      # add this
 router.register(r'todos', views.TodoView, 'todo')     # add this
+router.register(r'modules', views.ModuleView, 'module')     # add this
         
 urlpatterns = [
     path('admin/', admin.site.urls),           

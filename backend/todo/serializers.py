@@ -13,4 +13,4 @@ class TodoSerializer(serializers.ModelSerializer):
 class ModuleSerializer(serializers.ModelSerializer):
   class Meta:
     model = Module
-    fields = ('code', 'name', 'deadline', 'completed')
+    fields = ('code', 'name', 'duration', 'completed', 'start_date')

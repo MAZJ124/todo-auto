@@ -19,13 +19,18 @@ class App extends Component {
         completed: false
       },
       addedItem: "",
-      todoList: []
+      todoList: [],
+      moduleList: []
     };
   }
   componentDidMount() {
     this.refreshList();
   }
   refreshList = () => {
+    axios
+      .get(`${proxy}/api/todos/`)
+      .then(res => this.setState({ todoList: res.data }))
+      .catch(err => console.log(err));
     axios
       .get(`${proxy}/api/todos/`)
       .then(res => this.setState({ todoList: res.data }))
@@ -161,6 +166,9 @@ class App extends Component {
                 </button>
               </div>
               {this.renderModuleTabList()}
+              <ul className="list-group list-group-flush">
+                {this.renderTodoItems()}
+              </ul>
               <div className="">
                 <button 
                   onClick={() => {
