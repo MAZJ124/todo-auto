@@ -48,8 +48,8 @@ export default class CustomModal extends Component {
               <Label for="title">Module Code</Label>
               <Input
                 type="text"
-                name="title"
-                value={this.state.activeItem.title}
+                name="code"
+                value={this.state.activeItem.code}
                 onChange={this.handleChange}
                 placeholder="Enter Module Code"
               />
@@ -58,8 +58,8 @@ export default class CustomModal extends Component {
               <Label for="description">Module Name</Label>
               <Input
                 type="text"
-                name="description"
-                value={this.state.activeItem.description}
+                name="name"
+                value={this.state.activeItem.name}
                 onChange={this.handleChange}
                 placeholder="Enter Module Name"
               />
@@ -86,8 +86,8 @@ export default class CustomModal extends Component {
               <Label for="deadline">Start Date</Label>
               <Input
                 type="text"
-                name="deadline"
-                value={this.state.activeItem.deadline}
+                name="startDate"
+                value={this.state.activeItem.startDate}
                 onChange={this.handleChange}
                 placeholder="In yyyy-mm-dd format"
               />

@@ -122,7 +122,7 @@ class App extends Component {
   };
   renderModules = () => {
     const { viewCompletedTodo } = this.state;
-    const newItems = this.state.moduleList
+    const newItems = this.state.moduleList;
     // .filter(
     //   item => item.completed === viewCompletedTodo
     // );
@@ -170,20 +170,26 @@ class App extends Component {
   };
   handleSubmit = item => {
     this.toggle();
+    let addedItemPath = this.addedItem === "module" ? "modules" : "todos"
+    console.log(addedItemPath)
     if (item.id) {
       axios
-        .put(`${proxy}/api/todos/${item.id}/`, item)
+        .put(`${proxy}/api/${addedItemPath}/${item.id}/`, item)
         .then(res => this.refreshList());
       return;
     }
     axios
-      .post(`${proxy}/api/todos/`, item)
+      .post(`${proxy}/api/${addedItemPath}/`, item)
       .then(res => this.refreshList());
   };
   handleDelete = item => {
     axios
       .delete(`${proxy}/api/todos/${item.id}`)
       .then(res => this.refreshList());
+  };
+  createModule = () => {
+    const item = { code: "", name: "", duration: 13, completed: false, startDate: "" };
+    this.setState({ activeItem: item, modal: !this.state.modal });
   };
   createTodo = () => {
     const item = { title: "", description: "", completed: false, deadline: "" };
